@@ -124,7 +124,7 @@ else:
          r"^https://.*\.gitpod\.io$",
      ]
 
- CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True
 
 
 ROOT_URLCONF = 'drf_api.urls'
