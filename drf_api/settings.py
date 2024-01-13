@@ -61,7 +61,7 @@ REST_AUTH_SERIALIZERS = {
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = ['8000-bibi78-drfapi-nrrszx58l9u.ws-eu106.gitpod.io']
 # ALLOWED_HOSTS = ['localhost', 'drfa-api-0c6557539d5a.herokuapp.com']
@@ -95,6 +95,7 @@ INSTALLED_APPS = [
     'comments',
     'likes',
     'followers',
+    'mp3',
     'allauth',
     'allauth.account',
     'dj_rest_auth.registration',
