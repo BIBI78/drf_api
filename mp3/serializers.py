@@ -39,7 +39,7 @@ class Mp3Serializer(serializers.ModelSerializer):
         if user.is_authenticated:
             print('LIKES: ', Like.objects.all())
             like = Like.objects.filter(
-                owner=user, post=obj
+                owner=user, mp3=obj
             ).first()
             return like.id if like else None
         return None        
