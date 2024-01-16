@@ -34,11 +34,21 @@ class Mp3Serializer(serializers.ModelSerializer):
         request = self.context['request']
         return request.user == obj.owner
 
+    def get_like_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            print('LIKES: ', Like.objects.all())
+            like = Like.objects.filter(
+                owner=user, post=obj
+            ).first()
+            return like.id if like else None
+        return None        
+
     class Meta:
         model = Mp3
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
             'title', 'content', 'mp3',
-             'like_id', 'likes_count', 'comments_count',
+            'like_id', 'likes_count', 'comments_count',
         ]
