@@ -7,7 +7,8 @@ class Mp3(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
-    mp3_file = models.FileField(upload_to='mp3s/', blank=True)
+    # mp3_file = models.FileField(upload_to='mp3s/', blank=True)
+    mp3 = models.FileField(upload_to='mp3s/', blank=True)
     # Add any additional fields you need for your MP3 model
 
     class Meta:
