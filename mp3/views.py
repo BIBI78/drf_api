@@ -1,4 +1,3 @@
-from django.db.models import Count
 from rest_framework import generics, permissions, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_api.permissions import IsOwnerOrReadOnly
@@ -33,6 +32,17 @@ class Mp3List(generics.ListCreateAPIView):
     ordering_fields = [
         # Add any additional fields you want to order on
     ]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+class Mp3Create(generics.CreateAPIView):
+    """
+    Create an MP3 if logged in.
+    The perform_create method associates the MP3 with the logged-in user.
+    """
+    serializer_class = Mp3Serializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
