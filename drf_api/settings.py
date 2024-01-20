@@ -144,6 +144,12 @@ if 'CLIENT_ORIGIN_DEV' in os.environ:
      
 CORS_ALLOW_CREDENTIALS = True
 
+CORS_ALLOWED_ORIGINS = [
+    "https://3000-bibi78-v1-i1o7lqjzcq4.ws-eu107.gitpod.io",
+    # Add any other origins that should be allowed
+]
+
+
 
 ROOT_URLCONF = 'drf_api.urls'
 
