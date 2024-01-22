@@ -3,6 +3,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_api.permissions import IsOwnerOrReadOnly
 from .models import Mp3
 from .serializers import Mp3Serializer
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class Mp3List(generics.ListCreateAPIView):
     """
@@ -43,6 +44,7 @@ class Mp3Create(generics.CreateAPIView):
     """
     serializer_class = Mp3Serializer
     permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]  # Add this line
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
