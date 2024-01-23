@@ -8,7 +8,7 @@ class Mp3(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
     # mp3_file = models.FileField(upload_to='mp3s/', blank=True)
-    mp3 = models.FileField(upload_to='mp3/', blank=True)
+    mp3 = models.CharField(max_length=255, blank=True)
     #  any additional fields needed for MP3 model
    
 

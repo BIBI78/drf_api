@@ -13,15 +13,15 @@ class Mp3Serializer(serializers.ModelSerializer):
     comments_count = serializers.ReadOnlyField()
 
     def create(self, validated_data):
-        mp3 = validated_data.get('mp3')  
+        mp3_file = validated_data.get('mp3')  # Get the actual file object
         # Cloudinary integration code
         cloudinary_options = {
             'resource_type': 'auto',
-            'public_id': 'unique_id_for_file',
+            'public_id': f'mp3_file_{validated_data["title"]}_{validated_data["id"]}',
         }
 
         try:
-            result = upload(mp3, **cloudinary_options)
+            result = upload(mp3_file, **cloudinary_options)
             validated_data['mp3'] = result['secure_url']
         except Exception as e:
             # Handle the exception (e.g., raise a serializers.ValidationError)
