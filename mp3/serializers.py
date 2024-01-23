@@ -14,15 +14,23 @@ class Mp3Serializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         mp3_file = validated_data.get('mp3')  # Get the actual file object
+
         # Cloudinary integration code
         cloudinary_options = {
             'resource_type': 'auto',
-            'public_id': f'mp3_file_{validated_data["title"]}_{validated_data["id"]}',
+            'public_id': f'mp3_file_{validated_data["title"]}_{mp3_file.name}' if mp3_file else None,
         }
 
         try:
-            result = upload(mp3_file, **cloudinary_options)
-            validated_data['mp3'] = result['secure_url']
+            if mp3_file:
+                result = upload(mp3_file, **cloudinary_options)
+                validated_data['mp3'] = result.get('secure_url')  # Use 'secure_url' from the Cloudinary result
+
+                # Print statements
+                print("Cloudinary Options:", cloudinary_options)
+                print("Result from Cloudinary:", result)
+                print("Validated Data after upload:", validated_data)
+
         except Exception as e:
             # Handle the exception (e.g., raise a serializers.ValidationError)
             raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
@@ -37,12 +45,9 @@ class Mp3Serializer(serializers.ModelSerializer):
     def get_like_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            print('LIKES: ', Like.objects.all())
-            like = Like.objects.filter(
-                owner=user, mp3=obj
-            ).first()
+            like = Like.objects.filter(owner=user, mp3=obj).first()
             return like.id if like else None
-        return None        
+        return None
 
     class Meta:
         model = Mp3
@@ -52,3 +57,4 @@ class Mp3Serializer(serializers.ModelSerializer):
             'title', 'content', 'mp3',
             'like_id', 'likes_count', 'comments_count',
         ]
+
