@@ -14,7 +14,6 @@ class Mp3Serializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         mp3_file = validated_data.get('mp3')  # Get the actual file object
-
         # Cloudinary integration code
         cloudinary_options = {
             'resource_type': 'auto',
@@ -25,12 +24,6 @@ class Mp3Serializer(serializers.ModelSerializer):
             if mp3_file:
                 result = upload(mp3_file, **cloudinary_options)
                 validated_data['mp3'] = result.get('secure_url')  # Use 'secure_url' from the Cloudinary result
-
-                # Print statements
-                print("Cloudinary Options:", cloudinary_options)
-                print("Result from Cloudinary:", result)
-                print("Validated Data after upload:", validated_data)
-
         except Exception as e:
             # Handle the exception (e.g., raise a serializers.ValidationError)
             raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
@@ -57,4 +50,3 @@ class Mp3Serializer(serializers.ModelSerializer):
             'title', 'content', 'mp3',
             'like_id', 'likes_count', 'comments_count',
         ]
-
