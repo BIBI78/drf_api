@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from posts.models import Post
-from mp3.models import Mp3  # Assuming you have an Mp3 model
+from mp3.models import Mp3  
 
 class Like(models.Model):
     """

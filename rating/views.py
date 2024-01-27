@@ -4,7 +4,7 @@ from drf_api.permissions import IsOwnerOrReadOnly
 from .models import Rating
 from .serializers import RatingSerializer
 
-class RatingListCreateView(generics.ListCreateAPIView):
+class RatingList(generics.ListCreateAPIView):
     """
     List ratings or create a rating if logged in.
     """
@@ -15,7 +15,8 @@ class RatingListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-class RatingDetailView(generics.RetrieveDestroyAPIView):
+
+class RatingDetail(generics.RetrieveDestroyAPIView):
     """
     Retrieve a rating or delete it by id if you own it.
     """

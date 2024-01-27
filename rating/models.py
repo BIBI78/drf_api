@@ -1,28 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import User
 from posts.models import Post
-from mp3.models import Mp3
+
 
 class Rating(models.Model):
+    """ 
+    Rating model with related name ratings
     """
-    Rating model, related to 'owner', 'post', and 'mp3'.
-    'owner' is a User instance, 'post' is a Post instance, and 'mp3' is an Mp3 instance.
-    'unique_together' makes sure a user can't rate the same post or mp3 twice.
-    """
+    rating = models.IntegerField()
+    # event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='ratings')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    #  new bs
     post = models.ForeignKey(
         Post, related_name='ratings', on_delete=models.CASCADE, blank=True, null=True
     )
-    mp3 = models.ForeignKey(
-        Mp3, related_name='ratings', on_delete=models.CASCADE, blank=True, null=True
-    )
-    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)  # Add this line
-
+   
+   
+    
     class Meta:
         ordering = ['-created_at']
-        unique_together = ['owner', 'post', 'mp3']
 
     def __str__(self):
-        return f'{self.owner} {self.post} {self.mp3} {self.rating}'
+        return f'{self.owner} {self.event}'

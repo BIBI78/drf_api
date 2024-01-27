@@ -31,5 +31,5 @@ urlpatterns = [
     path('', include('likes.urls')),
     path('', include('followers.urls')),
     path('', include('mp3.urls')),
-    path('rating/', include('rating.urls')),
+     path('', include('rating.urls')),
 ]
