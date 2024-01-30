@@ -27,6 +27,7 @@ class Mp3Serializer(serializers.ModelSerializer):
         except Exception as e:
             # Handle the exception (e.g., raise a serializers.ValidationError)
             raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
+            print(f"Secure URL: {validated_data['mp3']}")
 
         # Continue with the standard create logic
         return super().create(validated_data)
