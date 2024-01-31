@@ -14,23 +14,34 @@ class Mp3Serializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         mp3_file = validated_data.get('mp3')  # Get the actual file object
-        # Cloudinary integration code
+
+        cloudinary_public_id = f'mp3_file_{validated_data["title"]}_{mp3_file.name}' if mp3_file else None
+        print(f"Constructed public_id: {cloudinary_public_id}")
+
         cloudinary_options = {
             'resource_type': 'auto',
-            'public_id': f'mp3_file_{validated_data["title"]}_{mp3_file.name}' if mp3_file else None,
-        }
+            'public_id': cloudinary_public_id,
+
+         }
 
         try:
             if mp3_file:
                 result = upload(mp3_file, **cloudinary_options)
+                print(f"Secure URL before modification: {result.get('secure_url')}")
+
                 validated_data['mp3'] = result.get('secure_url')  # Use 'secure_url' from the Cloudinary result
+                print(f"Secure URL after modification: {validated_data['mp3']}")
+                
         except Exception as e:
             # Handle the exception (e.g., raise a serializers.ValidationError)
-            raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
             print(f"Secure URL: {validated_data['mp3']}")
-
+            raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
+            
         # Continue with the standard create logic
         return super().create(validated_data)
+
+
+
 
     def get_is_owner(self, obj):
         request = self.context['request']

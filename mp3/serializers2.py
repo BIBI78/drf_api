@@ -14,19 +14,8 @@ class Mp3Serializer(serializers.ModelSerializer):
 
 
 #  here is where
-    def validate_image(self, value):
-        if value.size > 2 * 1024 * 1024:
-            raise serializers.ValidationError('Image size larger than 2MB!')
-        if value.image.height > 4096:
-            raise serializers.ValidationError(
-                'Image height larger than 4096px!'
-            )
-        if value.image.width > 4096:
-            raise serializers.ValidationError(
-                'Image width larger than 4096px!'
-            )
-        return value
-
+# Validate trhe audio file i guess ?
+    
     def get_is_owner(self, obj):
         request = self.context['request']
         return request.user == obj.owner
@@ -35,7 +24,7 @@ class Mp3Serializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if user.is_authenticated:
             like = Like.objects.filter(
-                owner=user, post=obj
+                owner=user, mp3=obj
             ).first()
             return like.id if like else None
         return None
