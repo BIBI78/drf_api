@@ -120,10 +120,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 
 ]
 
+CORS_ORIGIN_ALLOW_ALL = False
 
+CORS_ALLOWED_ORIGINS = [
+    'https://3000-bibi78-v1-zotqlp7lkfp.ws-eu108.gitpod.io',
+    # Add other allowed origins as needed
+]
 
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
