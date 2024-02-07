@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from posts.models import Post
 from likes.models import Like
-
+from django.conf import settings
+from cloudinary.uploader import upload
 
 class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
@@ -12,17 +13,34 @@ class PostSerializer(serializers.ModelSerializer):
     likes_count = serializers.ReadOnlyField()
     comments_count = serializers.ReadOnlyField()
 
+    mp3_url = serializers.SerializerMethodField()
+
+    def get_mp3_url(self, obj):
+        print(obj.mp3)
+        return str(obj.mp3)
+
+    def create(self, validated_data):
+        mp3_file = validated_data.pop('mp3', None)  # Pop mp3 file from validated_data
+        instance = super().create(validated_data)  # Create the instance without mp3
+
+        if mp3_file:
+            # Upload mp3 file to Cloudinary
+            cloudinary_options = {
+                'resource_type': 'auto',
+                'public_id': f'mp3_file_{instance.title}_{mp3_file.name}'
+            }
+            try:
+                result = upload(mp3_file, **cloudinary_options)
+                instance.mp3 = result.get('secure_url')  # Use 'secure_url' from the Cloudinary result
+            except Exception as e:
+                raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
+
+        instance.save()  # Save the instance with mp3 file
+
+        return instance
+
     def validate_image(self, value):
-        if value.size > 2 * 1024 * 1024:
-            raise serializers.ValidationError('Image size larger than 2MB!')
-        if value.image.height > 4096:
-            raise serializers.ValidationError(
-                'Image height larger than 4096px!'
-            )
-        if value.image.width > 4096:
-            raise serializers.ValidationError(
-                'Image width larger than 4096px!'
-            )
+        # Your image validation logic here
         return value
 
     def get_is_owner(self, obj):
@@ -32,9 +50,7 @@ class PostSerializer(serializers.ModelSerializer):
     def get_like_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            like = Like.objects.filter(
-                owner=user, post=obj
-            ).first()
+            like = Like.objects.filter(owner=user, post=obj).first()
             return like.id if like else None
         return None
 
@@ -43,6 +59,6 @@ class PostSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
-            'title', 'content', 'image', 'image_filter',
-            'like_id', 'likes_count', 'comments_count',
+            'title', 'content', 'mp3', 'image',
+            'like_id', 'likes_count', 'comments_count', 'mp3_url'
         ]
