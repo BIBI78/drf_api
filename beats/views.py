@@ -13,8 +13,8 @@ class BeatList(generics.ListCreateAPIView):
     serializer_class = BeatSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Beat.objects.annotate(
-        # likes_count=Count('likes', distinct=True),
-        # comments_count=Count('comments', distinct=True)  # Corrected related name
+        likes_count=Count('likes', distinct=True),
+        comments_count=Count('comment', distinct=True)  
     ).order_by('-created_at')
     filter_backends = [
         filters.OrderingFilter,
@@ -22,9 +22,9 @@ class BeatList(generics.ListCreateAPIView):
         DjangoFilterBackend,
     ]
     filterset_fields = [
-        # 'owner__profile__followed__owner__profile',  # Corrected field name
-        # 'likes__owner__profile',
-        # 'owner__profile',
+        'owner__followed__owner__profile',  
+        'likes__owner__profile',
+        'owner__profile',
     ]
     search_fields = [
         'owner__username',
@@ -47,6 +47,6 @@ class BeatDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BeatSerializer
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Beat.objects.annotate(
-        # likes_count=Count('likes', distinct=True),
-        # comments_count=Count('comments', distinct=True)  # Corrected related name
+        likes_count=Count('likes', distinct=True),
+        comments_count=Count('comment', distinct=True)  
     ).order_by('-created_at')
