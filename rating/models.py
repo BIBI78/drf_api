@@ -21,4 +21,4 @@ class Rating(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f'{self.owner} {self.event}'
+        return f'{self.owner} {self.beat}'

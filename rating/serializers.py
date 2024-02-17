@@ -14,7 +14,7 @@ class RatingSerializer(serializers.ModelSerializer):
     # what shoudl i use for event ?
     class Meta:
         model = Rating
-        fields = ['id', 'owner', 'rating', 'post', 'created_at']
+        fields = ['id', 'owner', 'rating', 'beat', 'created_at']
        
         
     def create(self, validated_data):
