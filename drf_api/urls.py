@@ -34,4 +34,5 @@ urlpatterns = [
     path('', include('mp3s.urls')),
     path('', include('rating.urls')),
     path('', include('beats.urls')),
+    path('', include('forms.urls')),
 ]

@@ -103,6 +103,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rating',
     'beats',
+    'forms',
 
 ]
 
