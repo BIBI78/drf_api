@@ -4,10 +4,9 @@ from drf_api.permissions import IsOwnerOrReadOnly
 from .models import Form
 from .serializers import FormSerializer, FormDetailSerializer
 
-
 class FormList(generics.ListCreateAPIView):
     """
-    List comments or create a comment if logged in.
+    List forms or create a form if logged in.
     """
     serializer_class = FormSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -18,10 +17,9 @@ class FormList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-
 class FormDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    Retrieve a comment, or update or delete it by id if you own it.
+    Retrieve a form, or update or delete it by id if you own it.
     """
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = FormDetailSerializer

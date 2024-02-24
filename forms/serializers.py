@@ -29,7 +29,7 @@ class FormSerializer(serializers.ModelSerializer):
         model = Form
         fields = [
             'id', 'owner', 'is_owner', 'profile_id', 'profile_image',
-            'post', 'beat', 'created_at', 'updated_at', 'content'
+             'beat', 'created_at', 'updated_at', 
         ]
 
 
