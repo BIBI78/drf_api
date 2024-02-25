@@ -9,6 +9,7 @@ class FormSerializer(serializers.ModelSerializer):
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
+    category = serializers.CharField()
 
     def get_is_owner(self, obj):
         request = self.context.get('request')
@@ -18,14 +19,16 @@ class FormSerializer(serializers.ModelSerializer):
         return naturaltime(obj.created_at)
     
     def get_updated_at(self, obj):
-        return None  # Since 'updated_at' doesn't exist in the Form model, return None
+        return naturaltime(obj.updated_at)
 
     class Meta:
         model = Form
         fields = [
             'id', 'owner', 'is_owner', 'profile_id', 'profile_image',
-             'beat', 'created_at', 'content', 'updated_at'
+             'beat', 'created_at', 'content', 'category', 'updated_at',
         ]
 
 class FormDetailSerializer(FormSerializer):
     beat = serializers.ReadOnlyField(source='beat.id')
+
+  
