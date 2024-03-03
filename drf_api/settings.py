@@ -104,6 +104,7 @@ INSTALLED_APPS = [
     'rating',
     'beats',
     'forms',
+    'feedback',
 
 ]
 

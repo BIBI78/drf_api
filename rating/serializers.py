@@ -11,7 +11,7 @@ class RatingSerializer(serializers.ModelSerializer):
     
     owner = serializers.ReadOnlyField(source='owner.username')
     
-    # what shoudl i use for event ?
+    # what should i use for event ?
     class Meta:
         model = Rating
         fields = ['id', 'owner', 'rating', 'beat', 'created_at']
