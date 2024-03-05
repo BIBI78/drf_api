@@ -17,7 +17,7 @@ class Beat(models.Model):
     # might be a problme witht default image 
     # might nedd to change the images to album covers?
     image = models.ImageField(
-        upload_to='images/', default='../default_post_rgq6aq', blank=True
+        upload_to='images/', default='../default_post_rgq6aq', blank=True, max_length=300
     )
    
 
