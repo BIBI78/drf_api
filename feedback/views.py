@@ -21,3 +21,6 @@ class FeedbackUpdateView(generics.UpdateAPIView):
     queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
