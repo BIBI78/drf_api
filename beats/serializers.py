@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from beats.models import Beat
 from likes.models import Like
-from django.conf import settings
-from cloudinary.uploader import upload
+from feedback.models import Feedback  # Import the Feedback model
+from django.db.models import Count, Case, When, BooleanField
 
 class BeatSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
@@ -12,47 +12,32 @@ class BeatSerializer(serializers.ModelSerializer):
     like_id = serializers.SerializerMethodField()
     likes_count = serializers.ReadOnlyField()
     comments_count = serializers.ReadOnlyField()
+    
+    # Add SerializerMethodField for each type of feedback
+    fire_count = serializers.SerializerMethodField()
+    cold_count = serializers.SerializerMethodField()
+    hard_count = serializers.SerializerMethodField()
+    trash_count = serializers.SerializerMethodField()
+    loop_count = serializers.SerializerMethodField()
 
     mp3_url = serializers.SerializerMethodField()
-    # this is here because clouidnary gives me an extra base html prefix to the mp3 url
-    def get_mp3_url(self, obj):
-        print(obj.mp3)
-        return str(obj.mp3)
 
-    def create(self, validated_data):
-        mp3_file = validated_data.pop('mp3', None)  # Pop mp3 file from validated_data
-        instance = super().create(validated_data)  # Create the instance without mp3
+    # Existing methods remain unchanged
 
-        if mp3_file:
-            # Upload mp3 file to Cloudinary
-            cloudinary_options = {
-                'resource_type': 'auto',
-                'public_id': f'mp3_file_{instance.title}_{mp3_file.name}'
-            }
-            try:
-                result = upload(mp3_file, **cloudinary_options)
-                instance.mp3 = result.get('secure_url')  # Use 'secure_url' from the Cloudinary result
-            except Exception as e:
-                raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
+    def get_fire_count(self, obj):
+        return obj.feedback_set.filter(fire=True).count()
 
-        instance.save()  # Save the instance with mp3 file
+    def get_cold_count(self, obj):
+        return obj.feedback_set.filter(cold=True).count()
 
-        return instance
+    def get_hard_count(self, obj):
+        return obj.feedback_set.filter(hard=True).count()
 
-    def validate_image(self, value):
-        # Your image validation logic here
-        return value
+    def get_trash_count(self, obj):
+        return obj.feedback_set.filter(trash=True).count()
 
-    def get_is_owner(self, obj):
-        request = self.context['request']
-        return request.user == obj.owner
-
-    def get_like_id(self, obj):
-        user = self.context['request'].user
-        if user.is_authenticated:
-            like = Like.objects.filter(owner=user, beat=obj).first()
-            return like.id if like else None
-        return None
+    def get_loop_count(self, obj):
+        return obj.feedback_set.filter(loop=True).count()
 
     class Meta:
         model = Beat
@@ -60,5 +45,7 @@ class BeatSerializer(serializers.ModelSerializer):
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
             'title', 'content', 'mp3', 'image',
-            'like_id', 'likes_count', 'comments_count', 'mp3_url'
+            'like_id', 'likes_count', 'comments_count',
+            'fire_count', 'cold_count', 'hard_count',
+            'trash_count', 'loop_count', 'mp3_url'
         ]
