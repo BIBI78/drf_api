@@ -70,4 +70,5 @@ class BeatSerializer(serializers.ModelSerializer):
             'profile_image', 'created_at', 'updated_at',
             'title', 'content', 'mp3', 'image',
             'like_id', 'likes_count', 'comments_count', 'mp3_url','cold_count',
+            'hard_count', 'trash_count', 'loop_count','fire_count'
         ]
