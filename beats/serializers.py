@@ -15,6 +15,14 @@ class BeatSerializer(serializers.ModelSerializer):
 
     mp3_url = serializers.SerializerMethodField()
     # this is here because clouidnary gives me an extra base html prefix to the mp3 url
+    #
+    fire_count = serializers.ReadOnlyField()
+    cold_count = serializers.ReadOnlyField()
+    hard_count = serializers.ReadOnlyField()
+    trash_count = serializers.ReadOnlyField()
+    loop_count = serializers.ReadOnlyField()
+
+    # 
     def get_mp3_url(self, obj):
         print(obj.mp3)
         return str(obj.mp3)
@@ -54,28 +62,11 @@ class BeatSerializer(serializers.ModelSerializer):
             return like.id if like else None
         return None
 
-    def get_fire_count(self, obj):
-        return obj.feedback_set.filter(fire=True).count()
-
-    def get_cold_count(self, obj):
-        return obj.feedback_set.filter(cold=True).count()
-
-    def get_hard_count(self, obj):
-        return obj.feedback_set.filter(hard=True).count()
-
-    def get_trash_count(self, obj):
-        return obj.feedback_set.filter(trash=True).count()
-
-    def get_loop_count(self, obj):
-        return obj.feedback_set.filter(loop=True).count()
-
     class Meta:
         model = Beat
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
             'title', 'content', 'mp3', 'image',
-            'like_id', 'likes_count', 'comments_count',
-            'fire_count', 'cold_count', 'hard_count',
-            'trash_count', 'loop_count', 'mp3_url'
+            'like_id', 'likes_count', 'comments_count', 'mp3_url'
         ]
