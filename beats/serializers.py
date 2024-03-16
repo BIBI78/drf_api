@@ -15,6 +15,7 @@ class BeatSerializer(serializers.ModelSerializer):
 
     mp3_url = serializers.SerializerMethodField()
     # this is here because clouidnary gives me an extra base html prefix to the mp3 url
+
     #
     fire_count = serializers.ReadOnlyField()
     cold_count = serializers.ReadOnlyField()
@@ -68,5 +69,5 @@ class BeatSerializer(serializers.ModelSerializer):
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
             'title', 'content', 'mp3', 'image',
-            'like_id', 'likes_count', 'comments_count', 'mp3_url'
+            'like_id', 'likes_count', 'comments_count', 'mp3_url','cold_count',
         ]
