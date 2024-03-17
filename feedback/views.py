@@ -2,6 +2,8 @@ from rest_framework import generics, permissions
 from .models import Feedback
 from .serializers import FeedbackSerializer
 from drf_api.permissions import IsOwnerOrReadOnly
+from django.http import JsonResponse
+from beats.models import Beat 
 
 class FeedbackCreateView(generics.ListCreateAPIView):
     """
@@ -35,3 +37,17 @@ class FeedbackListView(generics.ListAPIView):
     queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
     permission_classes = [permissions.AllowAny]  # Allow any user to view feedback
+
+def get_feedback_counts(request, beat_id):
+    try:
+        beat = Beat.objects.get(pk=beat_id)
+        feedback_counts = {
+            'fire': beat.feedback_set.filter(fire=True).count(),
+            'cold': beat.feedback_set.filter(cold=True).count(),
+            'hard': beat.feedback_set.filter(hard=True).count(),
+            'trash': beat.feedback_set.filter(trash=True).count(),
+            'loop': beat.feedback_set.filter(loop=True).count(),
+        }
+        return JsonResponse(feedback_counts)
+    except Beat.DoesNotExist:
+        return JsonResponse({'error': 'Beat not found'}, status=404)

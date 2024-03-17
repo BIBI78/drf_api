@@ -36,4 +36,6 @@ urlpatterns = [
     path('', include('beats.urls')),
     path('', include('forms.urls')),
     path('', include('feedback.urls')),
+   
+
 ]
