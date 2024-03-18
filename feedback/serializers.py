@@ -7,6 +7,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
     Serializer for the Feedback model
     The create method handles the unique constraint on 'owner' and 'beat'
     """
+    beat = serializers.ReadOnlyField(source='beat.id')
 
     class Meta:
         model = Feedback
