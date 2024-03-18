@@ -5,18 +5,22 @@ from drf_api.permissions import IsOwnerOrReadOnly
 from django.http import JsonResponse
 from beats.models import Beat 
 
-class FeedbackCreateView(generics.ListCreateAPIView):
+class FeedbackCreateView(generics.CreateAPIView):
     """
     Create feedback instances.
 
     Only authenticated users can create feedback.
     """
-    queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
     permission_classes = [permissions.IsAuthenticated]
-    
+
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        beat_id = self.request.data.get('beat')
+        try:
+            beat = Beat.objects.get(pk=beat_id)
+            serializer.save(owner=self.request.user, beat=beat)
+        except Beat.DoesNotExist:
+            return Response({'error': 'Beat not found'}, status=status.HTTP_404_NOT_FOUND)
 
 class FeedbackUpdateView(generics.UpdateAPIView):
     """
