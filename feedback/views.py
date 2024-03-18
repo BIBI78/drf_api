@@ -48,6 +48,15 @@ def get_feedback_counts(request, beat_id):
             'trash': beat.feedback_set.filter(trash=True).count(),
             'loop': beat.feedback_set.filter(loop=True).count(),
         }
+
+        # Update the feedback counts in the Beat object
+        beat.fire_count = feedback_counts['fire']
+        beat.cold_count = feedback_counts['cold']
+        beat.hard_count = feedback_counts['hard']
+        beat.trash_count = feedback_counts['trash']
+        beat.loop_count = feedback_counts['loop']
+        beat.save()
+
         return JsonResponse(feedback_counts)
     except Beat.DoesNotExist:
         return JsonResponse({'error': 'Beat not found'}, status=404)
