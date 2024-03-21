@@ -1,22 +1,27 @@
-from django.db import IntegrityError
 from rest_framework import serializers
-from .models import Feedback
+from .models import FeedbackFire, FeedbackCold, FeedbackHard, FeedbackTrash, FeedbackLoop
 
-class FeedbackSerializer(serializers.ModelSerializer):
-    """
-    Serializer for the Feedback model
-    The create method handles the unique constraint on 'owner' and 'beat'
-    """
-    beat = serializers.ReadOnlyField(source='beat.id')
-
+class FeedbackFireSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Feedback
+        model = FeedbackFire
         fields = '__all__'
 
-    def create(self, validated_data):
-        try:
-            return super().create(validated_data)
-        except IntegrityError:
-            raise serializers.ValidationError({
-                'detail': 'Feedback already exists for this owner and beat.'
-            })
+class FeedbackColdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FeedbackCold
+        fields = '__all__'
+
+class FeedbackHardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FeedbackHard
+        fields = '__all__'
+
+class FeedbackTrashSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FeedbackTrash
+        fields = '__all__'
+
+class FeedbackLoopSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FeedbackLoop
+        fields = '__all__'

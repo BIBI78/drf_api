@@ -1,10 +1,11 @@
-from django.db.models import Count, Case, When, BooleanField
+from django.db.models import Count
 from rest_framework import generics, permissions, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_api.permissions import IsOwnerOrReadOnly
 from .models import Beat
 from .serializers import BeatSerializer
-from feedback.models import Feedback  # Assuming the feedback app name is 'feedback'
+# feedback nana
+from feedback.models import FeedbackFire, FeedbackCold, FeedbackHard, FeedbackTrash, FeedbackLoop
 
 class BeatList(generics.ListCreateAPIView):
     """
@@ -15,12 +16,13 @@ class BeatList(generics.ListCreateAPIView):
     queryset = Beat.objects.annotate(
         likes_count=Count('likes', distinct=True),
         comments_count=Count('comment', distinct=True),
-        fire_count=Count(Case(When(feedbacks__fire=True, then=1), output_field=BooleanField())),
-        cold_count=Count(Case(When(feedbacks__cold=True, then=1), output_field=BooleanField())),
-        hard_count=Count(Case(When(feedbacks__hard=True, then=1), output_field=BooleanField())),
-        trash_count=Count(Case(When(feedbacks__trash=True, then=1), output_field=BooleanField())),
-        loop_count=Count(Case(When(feedbacks__loop=True, then=1), output_field=BooleanField())),
-    ).order_by('-created_at')
+        fire_count=Count('feedbackfire', distinct=True),
+        cold_count=Count('feedbackcold', distinct=True),
+        hard_count=Count('feedbackhard', distinct=True),
+        trash_count=Count('feedbacktrash', distinct=True),
+        loop_count=Count('feedbackloop', distinct=True),
+    )
+    
     filter_backends = [
         filters.OrderingFilter,
         filters.SearchFilter,
@@ -53,5 +55,10 @@ class BeatDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Beat.objects.annotate(
         likes_count=Count('likes', distinct=True),
-        comments_count=Count('comment', distinct=True)  
+        comments_count=Count('comment', distinct=True),
+        fire_count=Count('feedbackfire', distinct=True),
+        cold_count=Count('feedbackcold', distinct=True),
+        hard_count=Count('feedbackhard', distinct=True),
+        trash_count=Count('feedbacktrash', distinct=True),
+        loop_count=Count('feedbackloop', distinct=True),
     ).order_by('-created_at')

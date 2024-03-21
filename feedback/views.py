@@ -1,66 +1,117 @@
+
 from rest_framework import generics, permissions
-from .models import Feedback
-from .serializers import FeedbackSerializer
+# from .models import Feedback
+# from .serializers import FeedbackSerializer
 from drf_api.permissions import IsOwnerOrReadOnly
-from django.http import JsonResponse
-from beats.models import Beat 
+from .models import Beat
 
-class FeedbackCreateView(generics.CreateAPIView):
-    """
-    Create feedback instances.
+from rest_framework.response import Response
+from .models import FeedbackFire
+from .serializers import FeedbackFireSerializer
 
-    Only authenticated users can create feedback.
+from rest_framework import generics, permissions
+from .models import FeedbackFire, FeedbackCold, FeedbackHard, FeedbackTrash, FeedbackLoop
+from .serializers import (
+    FeedbackFireSerializer, FeedbackColdSerializer,
+    FeedbackHardSerializer, FeedbackTrashSerializer, FeedbackLoopSerializer
+)
+from drf_api.permissions import IsOwnerOrReadOnly
+
+class FeedbackFireList(generics.ListCreateAPIView):
     """
-    serializer_class = FeedbackSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    List feedbacks or create a new feedback for fire.
+    """
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = FeedbackFireSerializer
+    queryset = FeedbackFire.objects.all()
 
     def perform_create(self, serializer):
-        beat_id = self.request.data.get('beat')
-        try:
-            beat = Beat.objects.get(pk=beat_id)
-            serializer.save(owner=self.request.user, beat=beat)
-        except Beat.DoesNotExist:
-            return Response({'error': 'Beat not found'}, status=status.HTTP_404_NOT_FOUND)
+        serializer.save(owner=self.request.user)
 
-class FeedbackUpdateView(generics.UpdateAPIView):
+class FeedbackColdList(generics.ListCreateAPIView):
     """
-    Update feedback instances.
-
-    Only authenticated users can update feedback.
+    List feedbacks or create a new feedback for cold.
     """
-    queryset = Feedback.objects.all()
-    serializer_class = FeedbackSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = FeedbackColdSerializer
+    queryset = FeedbackCold.objects.all()
 
-class FeedbackListView(generics.ListAPIView):
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+class FeedbackHardList(generics.ListCreateAPIView):
     """
-    Retrieve a list of feedback instances.
-
-    Allows all users to view feedback.
+    List feedbacks or create a new feedback for hard.
     """
-    queryset = Feedback.objects.all()
-    serializer_class = FeedbackSerializer
-    permission_classes = [permissions.AllowAny]  # Allow any user to view feedback
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = FeedbackHardSerializer
+    queryset = FeedbackHard.objects.all()
 
-def get_feedback_counts(request, beat_id):
-    try:
-        beat = Beat.objects.get(pk=beat_id)
-        feedback_counts = {
-            'fire': beat.feedback_set.filter(fire=True).count(),
-            'cold': beat.feedback_set.filter(cold=True).count(),
-            'hard': beat.feedback_set.filter(hard=True).count(),
-            'trash': beat.feedback_set.filter(trash=True).count(),
-            'loop': beat.feedback_set.filter(loop=True).count(),
-        }
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
-        # Update the feedback counts in the Beat object
-        beat.fire_count = feedback_counts['fire']
-        beat.cold_count = feedback_counts['cold']
-        beat.hard_count = feedback_counts['hard']
-        beat.trash_count = feedback_counts['trash']
-        beat.loop_count = feedback_counts['loop']
-        beat.save()
+class FeedbackTrashList(generics.ListCreateAPIView):
+    """
+    List feedbacks or create a new feedback for trash.
+    """
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = FeedbackTrashSerializer
+    queryset = FeedbackTrash.objects.all()
 
-        return JsonResponse(feedback_counts)
-    except Beat.DoesNotExist:
-        return JsonResponse({'error': 'Beat not found'}, status=404)
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+class FeedbackLoopList(generics.ListCreateAPIView):
+    """
+    List feedbacks or create a new feedback for loop.
+    """
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = FeedbackLoopSerializer
+    queryset = FeedbackLoop.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    # DETAIL
+
+class FeedbackFireDetail(generics.RetrieveDestroyAPIView):
+    """
+    Retrieve a like or delete it by id if you own it.
+    """
+    permission_classes = [IsOwnerOrReadOnly]
+    serializer_class = FeedbackFireSerializer
+    queryset = FeedbackFire.objects.all()
+
+class FeedbackColdDetail(generics.RetrieveDestroyAPIView):
+    """
+    Retrieve a like or delete it by id if you own it.
+    """
+    permission_classes = [IsOwnerOrReadOnly]
+    serializer_class = FeedbackColdSerializer
+    queryset = FeedbackCold.objects.all()
+
+class FeedbackHardDetail(generics.RetrieveDestroyAPIView):
+    """
+    Retrieve a like or delete it by id if you own it.
+    """
+    permission_classes = [IsOwnerOrReadOnly]
+    serializer_class = FeedbackHardSerializer
+    queryset = FeedbackHard.objects.all()
+
+class FeedbackTrashDetail(generics.RetrieveDestroyAPIView):
+    """
+    Retrieve a like or delete it by id if you own it.
+    """
+    permission_classes = [IsOwnerOrReadOnly]
+    serializer_class = FeedbackTrashSerializer
+    queryset = FeedbackTrash.objects.all()
+
+class FeedbackLoopDetail(generics.RetrieveDestroyAPIView):
+    """
+    Retrieve a like or delete it by id if you own it.
+    """
+    permission_classes = [IsOwnerOrReadOnly]
+    serializer_class = FeedbackLoopSerializer
+    queryset = FeedbackLoop.objects.all()
+
+

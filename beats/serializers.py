@@ -16,6 +16,12 @@ class BeatSerializer(serializers.ModelSerializer):
     mp3_url = serializers.SerializerMethodField()
     # this is here because clouidnary gives me an extra base html prefix to the mp3 url
 
+    #  NEW ATTEMPT TO GET THE FEEBACAK VALUeS
+    fire_id = serializers.SerializerMethodField()
+    cold_id = serializers.SerializerMethodField()
+    hard_id = serializers.SerializerMethodField()
+    trash_id = serializers.SerializerMethodField()
+    loop_id = serializers.SerializerMethodField()
     #
     fire_count = serializers.ReadOnlyField()
     cold_count = serializers.ReadOnlyField()
@@ -63,6 +69,44 @@ class BeatSerializer(serializers.ModelSerializer):
             return like.id if like else None
         return None
 
+    #  DEBUGGINGG FEEDBACK trying to do something here with the feedback icons
+
+    def get_fire_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            fire = Fire.objects.filter(owner=user, beat=obj).first()
+            return fire.id if fire else None
+        return None
+      
+    def get_cold_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            cold = Cold.objects.filter(owner=user, beat=obj).first()
+            return cold.id if cold else None
+        return None
+
+    def get_hard_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            hard = Hard.objects.filter(owner=user, beat=obj).first()
+            return hard.id if hard else None
+        return None
+
+    def get_trash_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            trash = Trash.objects.filter(owner=user, beat=obj).first()
+            return trash.id if trash else None
+        return None
+    
+    def get_loop_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            loop = Loop.objects.filter(owner=user, beat=obj).first()
+            return loop.id if loop else None
+        return None
+
+# 
     class Meta:
         model = Beat
         fields = [
