@@ -71,39 +71,40 @@ class BeatSerializer(serializers.ModelSerializer):
     def get_fire_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            fire = Fire.objects.filter(owner=user, beat=obj).first()
+            # problem here
+            feedbackfire = FeedbackFire.objects.filter(owner=user, beat=obj).first()
             return fire.id if fire else None
         return None
       
     def get_cold_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            cold = Cold.objects.filter(owner=user, beat=obj).first()
+            cold = FeedbackCold.objects.filter(owner=user, beat=obj).first()
             return cold.id if cold else None
         return None
 
     def get_hard_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            hard = Hard.objects.filter(owner=user, beat=obj).first()
+            hard = FeedbackHard.objects.filter(owner=user, beat=obj).first()
             return hard.id if hard else None
         return None
 
     def get_trash_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            trash = Trash.objects.filter(owner=user, beat=obj).first()
+            trash = FeedbackTrash.objects.filter(owner=user, beat=obj).first()
             return trash.id if trash else None
         return None
     
     def get_loop_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            loop = Loop.objects.filter(owner=user, beat=obj).first()
+            loop = FeedbackLoop.objects.filter(owner=user, beat=obj).first()
             return loop.id if loop else None
         return None
 
- 
+# 
     class Meta:
         model = Beat
         fields = [
