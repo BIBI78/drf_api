@@ -16,3 +16,5 @@ class Migration(migrations.Migration):
             field=models.ImageField(blank=True, default='../default_post_rgq6aq', max_length=300, upload_to='images/'),
         ),
     ]
+
+    

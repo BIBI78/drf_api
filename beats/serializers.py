@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from beats.models import Beat
 from likes.models import Like
+from feedback.models import FeedbackFire, FeedbackCold, FeedbackHard, FeedbackTrash, FeedbackLoop
 from django.conf import settings
 from cloudinary.uploader import upload
 
@@ -12,23 +13,19 @@ class BeatSerializer(serializers.ModelSerializer):
     like_id = serializers.SerializerMethodField()
     likes_count = serializers.ReadOnlyField()
     comments_count = serializers.ReadOnlyField()
-
     mp3_url = serializers.SerializerMethodField()
     # this is here because clouidnary gives me an extra base html prefix to the mp3 url
-
     #  NEW ATTEMPT TO GET THE FEEBACAK VALUeS
     fire_id = serializers.SerializerMethodField()
     cold_id = serializers.SerializerMethodField()
     hard_id = serializers.SerializerMethodField()
     trash_id = serializers.SerializerMethodField()
     loop_id = serializers.SerializerMethodField()
-    #
     fire_count = serializers.ReadOnlyField()
     cold_count = serializers.ReadOnlyField()
     hard_count = serializers.ReadOnlyField()
     trash_count = serializers.ReadOnlyField()
     loop_count = serializers.ReadOnlyField()
-
     # 
     def get_mp3_url(self, obj):
         print(obj.mp3)
@@ -106,7 +103,7 @@ class BeatSerializer(serializers.ModelSerializer):
             return loop.id if loop else None
         return None
 
-# 
+ 
     class Meta:
         model = Beat
         fields = [
@@ -114,5 +111,6 @@ class BeatSerializer(serializers.ModelSerializer):
             'profile_image', 'created_at', 'updated_at',
             'title', 'content', 'mp3', 'image',
             'like_id', 'likes_count', 'comments_count', 'mp3_url','cold_count',
-            'hard_count', 'trash_count', 'loop_count','fire_count'
+            'hard_count', 'trash_count', 'loop_count','fire_count', 
+            'fire_id','cold_id','hard_id','trash_id','loop_id',
         ]
