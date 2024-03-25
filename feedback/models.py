@@ -21,7 +21,7 @@ class FeedbackFire(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-        unique_together = ['owner', 'beat']
+        # unique_together = ['owner', 'beat']
 
     def __str__(self):
         return f'{self.owner}{self.beat}'
