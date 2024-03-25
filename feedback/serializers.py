@@ -1,11 +1,12 @@
 from rest_framework import serializers
+from django.db import IntegrityError
 from .models import FeedbackFire, FeedbackCold, FeedbackHard, FeedbackTrash, FeedbackLoop
 
 class FeedbackFireSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = FeedbackFire
-        fields = '__all__'
+        fields = ['id', 'created_at', 'owner', 'post','beat']
 
     def create(self, validated_data):
         try:
