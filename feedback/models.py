@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from beats.models import Beat
 
+# error with the fire feedback field something about POSTS
 class FeedbackFire(models.Model):
     owner = models.ForeignKey(
         User, 
