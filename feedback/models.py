@@ -21,7 +21,9 @@ class FeedbackFire(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-        # unique_together = ['owner', 'beat']
+        # problem here , tried to take it oout something didnt work 
+        #  need to still take it out
+        unique_together = ['owner', 'beat']
 
     def __str__(self):
         return f'{self.owner}{self.beat}'
