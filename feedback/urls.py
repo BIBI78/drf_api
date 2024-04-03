@@ -3,10 +3,10 @@ from feedback import views
 
 
 urlpatterns = [
-    path('feedback/fire/', views.FeedbackFireList.as_view()),
-    path('feedback/fire/<int:pk>/', views.FeedbackFireDetail.as_view()),
-    # path('feedback/fire/', views.FeedbackFireList.as_view(), name='feedback-fire-list'),
-    # path('feedback/fire/<int:pk>/', views.FeedbackFireDetail.as_view(), name='feedback-fire-detail'),
+    # path('feedback/fire/', views.FeedbackFireList.as_view()),
+    # path('feedback/fire/<int:pk>/', views.FeedbackFireDetail.as_view()),
+    path('feedback/fire/', views.FeedbackFireList.as_view(), name='feedback-fire-list'),
+    path('feedback/fire/<int:pk>/', views.FeedbackFireDetail.as_view(), name='feedback-fire-detail'),
 
     path('feedback/cold/', views.FeedbackColdList.as_view(), name='feedback-cold-list'),
     path('feedback/cold/<int:pk>/', views.FeedbackColdDetail.as_view(), name='feedback-cold-detail'),

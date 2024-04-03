@@ -68,13 +68,24 @@ class BeatSerializer(serializers.ModelSerializer):
 
     #  DEBUGGINGG FEEDBACK trying to do something here with the feedback icons
 
+    # def get_fire_id(self, obj):
+    #     user = self.context['request'].user
+    #     if user.is_authenticated:
+    #         # problem here
+    #         # he dont like the word "fire"
+    #         feedbackfire = FeedbackFire.objects.filter(owner=user, beat=obj).first()
+    #         return feedbackfire.id if feedbackfire else None
+    #     return None
+
+    # ERROR: with the fire button 
+
     def get_fire_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
             # problem here
             # he dont like the word "fire"
-            feedbackfire = FeedbackFire.objects.filter(owner=user, beat=obj).first()
-            return feedbackfire.id if feedbackfire else None
+            fire = FeedbackFire.objects.filter(owner=user, beat=obj).first()
+            return fire.id if fire else None
         return None
       
     def get_cold_id(self, obj):
