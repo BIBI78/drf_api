@@ -6,7 +6,7 @@ class FeedbackFireSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = FeedbackFire
-        fields = ['id', 'created_at', 'owner', 'post','beat']
+        fields = '__all__'
 
     def create(self, validated_data):
         try:
