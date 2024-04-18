@@ -4,7 +4,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_api.permissions import IsOwnerOrReadOnly
 from .models import Beat
 from .serializers import BeatSerializer
-# feedback nana
 from feedback.models import FeedbackFire, FeedbackCold, FeedbackHard, FeedbackTrash, FeedbackLoop
 
 class BeatList(generics.ListCreateAPIView):
@@ -62,3 +61,6 @@ class BeatDetail(generics.RetrieveUpdateDestroyAPIView):
         trash_count=Count('feedbacktrash', distinct=True),
         loop_count=Count('feedbackloop', distinct=True),
     ).order_by('-created_at')
+
+
+ 

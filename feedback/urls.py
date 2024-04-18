@@ -3,8 +3,7 @@ from feedback import views
 
 
 urlpatterns = [
-    # path('feedback/fire/', views.FeedbackFireList.as_view()),
-    # path('feedback/fire/<int:pk>/', views.FeedbackFireDetail.as_view()),
+   
     path('feedback/fire/', views.FeedbackFireList.as_view(), name='feedback-fire-list'),
     path('feedback/fire/<int:pk>/', views.FeedbackFireDetail.as_view(), name='feedback-fire-detail'),
 

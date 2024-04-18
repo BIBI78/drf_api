@@ -1,7 +1,5 @@
 
 from rest_framework import generics, permissions
-# from .models import Feedback
-# from .serializers import FeedbackSerializer
 from drf_api.permissions import IsOwnerOrReadOnly
 from .models import Beat
 

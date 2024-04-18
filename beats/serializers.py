@@ -15,7 +15,6 @@ class BeatSerializer(serializers.ModelSerializer):
     comments_count = serializers.ReadOnlyField()
     mp3_url = serializers.SerializerMethodField()
     # this is here because clouidnary gives me an extra base html prefix to the mp3 url
-    #  NEW ATTEMPT TO GET THE FEEBACAK VALUeS
     fire_id = serializers.SerializerMethodField()
     cold_id = serializers.SerializerMethodField()
     hard_id = serializers.SerializerMethodField()
@@ -52,7 +51,6 @@ class BeatSerializer(serializers.ModelSerializer):
         return instance
 
     def validate_image(self, value):
-        # Your image validation logic here
         return value
 
     def get_is_owner(self, obj):
@@ -66,24 +64,9 @@ class BeatSerializer(serializers.ModelSerializer):
             return like.id if like else None
         return None
 
-    #  DEBUGGINGG FEEDBACK trying to do something here with the feedback icons
-
-    # def get_fire_id(self, obj):
-    #     user = self.context['request'].user
-    #     if user.is_authenticated:
-    #         # problem here
-    #         # he dont like the word "fire"
-    #         feedbackfire = FeedbackFire.objects.filter(owner=user, beat=obj).first()
-    #         return feedbackfire.id if feedbackfire else None
-    #     return None
-
-    # ERROR: with the fire button 
-
     def get_fire_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            # problem here
-            # he dont like the word "fire"
             fire = FeedbackFire.objects.filter(owner=user, beat=obj).first()
             return fire.id if fire else None
         return None

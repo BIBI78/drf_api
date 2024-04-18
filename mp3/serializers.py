@@ -14,7 +14,7 @@ class Mp3Serializer(serializers.ModelSerializer):
     likes_count = serializers.ReadOnlyField()
     comments_count = serializers.ReadOnlyField()
 
-    # Tutor addition
+    # clouidnary adds an extra prefix to the mp3 url so this gets rid of that
     mp3_url = serializers.SerializerMethodField()
 
     def get_mp3_url(self, obj):

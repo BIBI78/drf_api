@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from beats.models import Beat
 
-# error with the fire feedback field something about POSTS
+
 class FeedbackFire(models.Model):
     owner = models.ForeignKey(
         User, 
@@ -22,8 +22,6 @@ class FeedbackFire(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-        # problem here , tried to take it oout something didnt work 
-        #  need to still take it out
         unique_together = ['owner', 'beat']
 
     def __str__(self):

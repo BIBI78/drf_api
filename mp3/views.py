@@ -13,7 +13,6 @@ class Mp3List(generics.ListCreateAPIView):
     serializer_class = Mp3Serializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Mp3.objects.annotate(
-        # Add any additional annotations you need for your MP3 model
     ).order_by('-created_at')
     filter_backends = [
         filters.OrderingFilter,
@@ -23,15 +22,15 @@ class Mp3List(generics.ListCreateAPIView):
     filterset_fields = [
         'owner__followed__owner__profile',
         'owner__profile',
-        # Add any additional fields you want to filter on
+       
     ]
     search_fields = [
         'owner__username',
         'title',
-        # Add any additional fields you want to search on
+        
     ]
     ordering_fields = [
-        # Add any additional fields you want to order on
+        
     ]
 
     def perform_create(self, serializer):
@@ -44,7 +43,7 @@ class Mp3Create(generics.CreateAPIView):
     """
     serializer_class = Mp3Serializer
     permission_classes = [permissions.IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]  # Add this line
+    parser_classes = [MultiPartParser, FormParser]  
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -56,5 +55,4 @@ class Mp3Detail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = Mp3Serializer
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Mp3.objects.annotate(
-        # Add any additional annotations you need for your MP3 model
     ).order_by('-created_at')
