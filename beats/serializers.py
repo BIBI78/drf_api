@@ -46,7 +46,7 @@ class BeatSerializer(serializers.ModelSerializer):
             except Exception as e:
                 raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
 
-        instance.save()  # Save the instance with mp3 file
+            instance.save()  # Save the instance with mp3 file
 
         return instance
 
