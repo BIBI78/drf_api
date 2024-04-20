@@ -92,7 +92,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth.socialaccount',
     'profiles',
-    'posts',
     'comments',
     'likes',
     'followers',
