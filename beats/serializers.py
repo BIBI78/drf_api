@@ -33,11 +33,12 @@ class BeatSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         mp3_file = validated_data.pop('mp3', None)  # Pop mp3 file from validated_data
         instance = super().create(validated_data)  # Create the instance without mp3
+        
 
         if mp3_file:
             # Upload mp3 file to Cloudinary
             cloudinary_options = {
-                'resource_type': 'auto',
+                'resource_type': 'video',
                 'public_id': f'mp3_file_{instance.title}_{mp3_file.name}'
             }
             try:
@@ -50,8 +51,28 @@ class BeatSerializer(serializers.ModelSerializer):
 
         return instance
 
-    def validate_image(self, value):
-        return value
+    def update(self, instance, validated_data):
+        mp3_file = validated_data.get('mp3', None)  # Pop mp3 file from validated_data
+
+        if mp3_file:
+            # Upload mp3 file to Cloudinary
+            cloudinary_options = {
+                'resource_type': 'video',
+                'public_id': f'mp3_file_{instance.title[:10]}_{mp3_file.name}'
+            }
+            try:
+                result = upload(mp3_file, **cloudinary_options)
+                instance.mp3 = result.get('secure_url')  # Use 'secure_url' from the Cloudinary result
+                print(f'secure_url: {instance.mp3}')
+            except Exception as e:
+                raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
+
+            instance.save()  # Save the instance with mp3 file
+
+        return instance
+
+    # def validate_image(self, value):
+    #     return value
 
     def get_is_owner(self, obj):
         request = self.context['request']
