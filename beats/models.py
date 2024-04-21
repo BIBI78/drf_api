@@ -15,9 +15,9 @@ class Beat(models.Model):
     content = models.TextField(blank=True)
     mp3 = models.FileField(upload_to='mp3/', blank=True, null=True) 
     
-    image = models.ImageField(
-        upload_to='images/', default='../default_post_rgq6aq', blank=True
-    )
+    # image = models.ImageField(
+    #     upload_to='images/', default='../default_post_rgq6aq', blank=True
+    # )
    
 
     class Meta:

@@ -99,14 +99,14 @@ class BeatSerializer(serializers.ModelSerializer):
             return loop.id if loop else None
         return None
 
-    image = serializers.ImageField(required=False, allow_empty_file=True)
+    # image = serializers.ImageField(required=False, allow_empty_file=True)
 # 
     class Meta:
         model = Beat
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
-            'title', 'content', 'mp3', 'image',
+            'title', 'content', 'mp3', 
             'like_id', 'likes_count', 'comments_count', 'mp3_url','cold_count',
             'hard_count', 'trash_count', 'loop_count','fire_count', 
             'fire_id','cold_id','hard_id','trash_id','loop_id',
