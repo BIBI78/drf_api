@@ -53,6 +53,8 @@ class BeatSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         mp3_file = validated_data.get('mp3', None)  # Pop mp3 file from validated_data
+        instance.title = validated_data.get('title', None)
+        instance.content = validated_data.get('content', None)
 
         if mp3_file:
             # Upload mp3 file to Cloudinary
@@ -68,6 +70,9 @@ class BeatSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
 
             instance.save()  # Save the instance with mp3 file
+        else: 
+            instance.save()
+        
 
         return instance
 
