@@ -99,6 +99,7 @@ class BeatSerializer(serializers.ModelSerializer):
             return loop.id if loop else None
         return None
 
+    image = serializers.ImageField(required=False, allow_empty_file=True)
 # 
     class Meta:
         model = Beat
