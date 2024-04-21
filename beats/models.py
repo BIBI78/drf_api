@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 class Beat(models.Model):
     """
-    BEAT BEAT model, related to 'owner', i.e. a User instance.
-    Default image set so that we can always reference image.url.
+     BEAT model, related to 'owner', i.e. a User instance.
+    
     """
   
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
