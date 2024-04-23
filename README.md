@@ -25,11 +25,11 @@
 
 All User Stories have been documented in their own file, the link for which can be found [HERE](static/userstories.md).
 
-I have included links to the [GitHub Issues](https://github.com/CluelessBiker/project5-red-crayon/issues) for this project, as well as the [KANBAN board](https://github.com/users/CluelessBiker/projects/2).
+I have included links to the [GitHub Issues](https://github.com/BIBI78/opium/issues) for this project, as well as the [KANBAN board]().
 
 ## Database:
 
-![SQL Database model](/static/images-readme/readme-models.png)
+![SQL Database model](/static/images/.png)
 
 ## Testing:
 
@@ -37,69 +37,46 @@ I have included links to the [GitHub Issues](https://github.com/CluelessBiker/pr
 
 All files passed through [PEP8](http://pep8online.com/) without error.
 
-![PEP8](/static/images-readme/readme-pep8.png)
+![PEP8](/static/images/ep8.png)
 
 ### Manual Testing:
 
 1. Manually verified each url path created works & opens without error.
-2. Verified that the CRUD functionality is available in each app via the development version: Articles, Events, Comments, Followers, Likes, Posts, Profiles
 
-- Checked this by going to each link.
-- Creating a new item.
-- Checking new item URL path.
+2. Verified that the CRUD functionality is available in each app via the development version: Comments, Followers, Likes, Beats, Profiles
+
+- Checked by visiting each link.
+- Creating new item whatever it was.
+- Checking new item URL path.(_very important for mp3_)
 - Editing the item (not available for Likes, Followers or Users)
-- Deleting the item (Not available for Users or Profiles)
 
-3. Ensured search feature for Posts, Events & Articles apps returns results. Results not filtered for events:
+3. Ensured search feature for Beats, apps returns results. Results not filtered for events:
 
-- Checked the views file for Events. Filter & search field functions were not indented correctly. Once amended, the search bar produced the desired results.
+- Checked the views file for Beats. Filter & search field functions were not indented correctly. Once amended, the search bar produced the desired results.
 
-4. Repeated the steps for the deployed API, and all pages except `/profiles` would load.
+4. Repeated the steps for the deployed API, and all pages.
 
-- checked the code, and was unable to find an error, other than the "Server Error (500)" on the deployed link.
-- Reached out to Tutor support, and Ger was able to detect that the issue was with the database model.
-- reset the database with the following commands:
+- Needed to reset database everytime I edit my models, first I delete the **pycache** file in the migration folder of each app. Then clear my database on Elephant SQL then I run this command in the terminal:
 
 ```
-python3 manage.py migrate profiles zero
-```
-
-- upon completion, & migrating the database once again , all links were now viable on the Heroku deployed link.
-
-5. Frontend App throws a 500 error when saving the posts form.
-
-- Logged in to admin panel of deployed API app. The same error arises.
-- migrated the posts app back to zero, and made the migrations again. The issue persists.
-- backed up the database `python manage.py dumpdata > db.json`, & then ran the following commands:
+python manage.py makemigrations
+python manage.py migrate
 
 ```
-curl https://cli-assets.heroku.com/install.sh | sh
-heroku login -i
-heroku pg:info -a project5-drf-api
-heroku pg:reset -a project5-drf-api
-```
 
-- deleted `0001_initial.py` files & `__pycache__` from the migration folders in all apps.
-- Ran the migration commands again:
-
-```
-python3 manage.py makemigrations
-python3 manage.py migrate
-```
-
-- created a new super user to test functionality
+- after I need to recreate the admin login by running this command:
 
 ```
 python3 manage.py createsuperuser
 ```
 
-- Was now able to create a post via the deployed admin panel.
-- upon returning to the development version of the app, we were now unable to login or create a new user
-- clearing the browser cookies & cache, as well as relaunching the gitpod workspace resolved this.
+- After all that I was able to create a beat through the deployed admin panel.
+
+- Its important to note that I have to clear my cache after doing all this as well.
 
 ### Unfixed Bugs
 
-- None so far.
+- In the Beats serializer , I have to use " mp3_url = serializers.SerializerMethodField()" instead of the normal mp3 because of a problem with the prefix in Cloudinary. This bug is discussed further in my frontend READMEdoc [HERE](https://github.com/BIBI78/opium).
 
 ## Technologies Used:
 
@@ -117,11 +94,12 @@ python3 manage.py createsuperuser
 - Django Rest Auth
 - PostgreSQL
 - Cors Headers
-- DrawSQL: An interactive ERD platform that allows you to set up your database tables, & build the connections between them for a visual layout.
 
 ## Deployment:
 
 ### Project creation:
+
+#### (I followed these exact directions from this README doc [HERE](https://github.com/CluelessBiker/project5-drf-api))
 
 1. Create the GitHub repository.
 2. Create the project app on [Heroku](heroku.com).
@@ -364,12 +342,10 @@ pip3 freeze --local > requirements.txt
 
 ### Content:
 
-- The creation of this API database was provided through the step by step guide of the C.I. DRF-API walkthrough project.
-- All classes & functions have been credited.
-- Modifications have been made to the 'Profiles' & 'Posts' app models, and an additional two apps along with models, serializers & views have been created by me.
-- Oisin from Tutor support went above & beyond to assist me in resolving an issue with my database that prevented new posts from being created. The steps we took have been documented in point #5 of the Manual Testing section.
+- I followed the exact steps described in the CI walkrough project.
+- The ratings app outline comes from this project [HERE](https://github.com/andreas-ka/explore-sthlm-api), but I had to edit and downgrade the package to be able to deploy it in the frontend.
+- All my thanks to my mentor [Lauren](https://github.com/CluelessBiker)
 
 ### Media:
 
-- Default post image Photo by Artem Podrez from [Pexels](https://www.pexels.com/photo/image-of-a-whale-made-of-scrap-materials-7048043/)
-- Default profile image from [Favicon](https://favicon.io/emoji-favicons/alien-monster)
+- All images came from [Google images](https://www.google.com/)
