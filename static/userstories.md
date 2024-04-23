@@ -128,21 +128,12 @@
 
 ### Epic 6 : Feedback
 
-31. As a **user** I would like to **create an event** so that I can **inform others of events**
+31. As a **user** I would like to **leave feedback quickly** so that I can **let other users know how I feel about their music**
 
 - Story points: 2
 
-32. As a **user** I would like to **edit an event** so that I can **amend details where needed**
+32. As a **user** I would like to **remove my feedback** so that I can **change my mind**
 
-- Story points: 1
+### Epic 6 : 5-Star Rating
 
-33. As a **user** I would like to **delete an event** so that I can **remove events that are no longer happening**
-
-- Story points: 1
-
-34. As a **user** I would like to **search all events** so that I can **find events near me or by name**
-
-- Story points: 1
-
-35. As a **user** I would like to **see all events** so that I can **browse all of the events occurring**
-
+31. As a **user** I would like to **rate other users beats** so that I can **join the community in boosting good music visibility**
