@@ -14,7 +14,7 @@ class Profile(models.Model):
     content = models.TextField(blank=True)
     image = models.ImageField(
         upload_to='images/', default='default_profile_qdjgyp_m1qwo0'
-    ) # Image field for profile picture, with default image if not provided
+    )   # Image field for profile picture, with default image if not provided
 
     class Meta:
         ordering = ['-created_at']
