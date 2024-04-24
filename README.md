@@ -77,6 +77,7 @@ python3 manage.py createsuperuser
 ### Unfixed Bugs
 
 - In the Beats serializer , I have to use " mp3_url = serializers.SerializerMethodField()" instead of the normal mp3 because of a problem with the prefix in Cloudinary. This bug is discussed further in my frontend READMEdoc [HERE](https://github.com/BIBI78/opium).
+- I have chosen to rearrange my serializer file for the mp3 app because getting it to work properply already was a headache and I dont have time to fix it if any breaks.
 
 ## Technologies Used:
 

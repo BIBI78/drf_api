@@ -1,19 +1,15 @@
-
 from rest_framework import generics, permissions
+from rest_framework.response import Response
 from drf_api.permissions import IsOwnerOrReadOnly
 from .models import Beat
-
-from rest_framework.response import Response
-from .models import FeedbackFire
-from .serializers import FeedbackFireSerializer
-
-from rest_framework import generics, permissions
-from .models import FeedbackFire, FeedbackCold, FeedbackHard, FeedbackTrash, FeedbackLoop
+from .models import (
+    FeedbackFire, FeedbackCold, FeedbackHard, FeedbackTrash, FeedbackLoop
+)
 from .serializers import (
     FeedbackFireSerializer, FeedbackColdSerializer,
     FeedbackHardSerializer, FeedbackTrashSerializer, FeedbackLoopSerializer
 )
-from drf_api.permissions import IsOwnerOrReadOnly
+
 
 class FeedbackFireList(generics.ListCreateAPIView):
     """
@@ -26,6 +22,7 @@ class FeedbackFireList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+
 class FeedbackColdList(generics.ListCreateAPIView):
     """
     List feedbacks or create a new feedback for cold.
@@ -36,6 +33,7 @@ class FeedbackColdList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
 
 class FeedbackHardList(generics.ListCreateAPIView):
     """
@@ -48,6 +46,7 @@ class FeedbackHardList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+
 class FeedbackTrashList(generics.ListCreateAPIView):
     """
     List feedbacks or create a new feedback for trash.
@@ -58,6 +57,7 @@ class FeedbackTrashList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
 
 class FeedbackLoopList(generics.ListCreateAPIView):
     """
@@ -70,7 +70,6 @@ class FeedbackLoopList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-    # DETAIL
 
 class FeedbackFireDetail(generics.RetrieveDestroyAPIView):
     """
@@ -80,6 +79,7 @@ class FeedbackFireDetail(generics.RetrieveDestroyAPIView):
     serializer_class = FeedbackFireSerializer
     queryset = FeedbackFire.objects.all()
 
+
 class FeedbackColdDetail(generics.RetrieveDestroyAPIView):
     """
     Retrieve a like or delete it by id if you own it.
@@ -87,6 +87,7 @@ class FeedbackColdDetail(generics.RetrieveDestroyAPIView):
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = FeedbackColdSerializer
     queryset = FeedbackCold.objects.all()
+
 
 class FeedbackHardDetail(generics.RetrieveDestroyAPIView):
     """
@@ -96,6 +97,7 @@ class FeedbackHardDetail(generics.RetrieveDestroyAPIView):
     serializer_class = FeedbackHardSerializer
     queryset = FeedbackHard.objects.all()
 
+
 class FeedbackTrashDetail(generics.RetrieveDestroyAPIView):
     """
     Retrieve a like or delete it by id if you own it.
@@ -104,6 +106,7 @@ class FeedbackTrashDetail(generics.RetrieveDestroyAPIView):
     serializer_class = FeedbackTrashSerializer
     queryset = FeedbackTrash.objects.all()
 
+
 class FeedbackLoopDetail(generics.RetrieveDestroyAPIView):
     """
     Retrieve a like or delete it by id if you own it.
@@ -111,5 +114,3 @@ class FeedbackLoopDetail(generics.RetrieveDestroyAPIView):
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = FeedbackLoopSerializer
     queryset = FeedbackLoop.objects.all()
-
-

@@ -5,7 +5,9 @@ from .models import Mp3
 from .serializers import Mp3Serializer
 from rest_framework.parsers import MultiPartParser, FormParser
 
+
 class Mp3List(generics.ListCreateAPIView):
+
     """
     List MP3s or create an MP3 if logged in.
     The perform_create method associates the MP3 with the logged-in user.
@@ -22,19 +24,20 @@ class Mp3List(generics.ListCreateAPIView):
     filterset_fields = [
         'owner__followed__owner__profile',
         'owner__profile',
-       
+
     ]
     search_fields = [
         'owner__username',
         'title',
-        
+
     ]
     ordering_fields = [
-        
+
     ]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
 
 class Mp3Create(generics.CreateAPIView):
     """
@@ -43,12 +46,14 @@ class Mp3Create(generics.CreateAPIView):
     """
     serializer_class = Mp3Serializer
     permission_classes = [permissions.IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]  
+    parser_classes = [MultiPartParser, FormParser]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+
 class Mp3Detail(generics.RetrieveUpdateDestroyAPIView):
+
     """
     Retrieve an MP3 and edit or delete it if you own it.
     """

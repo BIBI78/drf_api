@@ -5,19 +5,20 @@ from cloudinary.uploader import upload
 from mp3.models import Mp3
 from likes.models import Like
 
+
 class Mp3Serializer(serializers.ModelSerializer):
     """
     Serializer for Mp3 model.
     """
-    owner = serializers.ReadOnlyField(source='owner.username') 
-    is_owner = serializers.SerializerMethodField()  
-    profile_id = serializers.ReadOnlyField(source='owner.profile.id')  
-    profile_image = serializers.ReadOnlyField(source='owner.profile.image.url') 
-    like_id = serializers.SerializerMethodField()  
-    likes_count = serializers.ReadOnlyField()  
-    comments_count = serializers.ReadOnlyField()  
+    owner = serializers.ReadOnlyField(source='owner.username')
+    is_owner = serializers.SerializerMethodField()
+    profile_id = serializers.ReadOnlyField(source='owner.profile.id')
+    profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
+    like_id = serializers.SerializerMethodField()
+    likes_count = serializers.ReadOnlyField()
+    comments_count = serializers.ReadOnlyField()
 
-    # Cloudinary adds an extra prefix to the mp3 URL so this method gets rid of that
+    # Hack to fix double prefix bug
     mp3_url = serializers.SerializerMethodField()
 
     def get_mp3_url(self, obj):
@@ -85,4 +86,4 @@ class Mp3Serializer(serializers.ModelSerializer):
             'profile_image', 'created_at', 'updated_at',
             'title', 'content', 'mp3',
             'like_id', 'likes_count', 'comments_count', 'mp3_url'
-        ]  
+        ]
