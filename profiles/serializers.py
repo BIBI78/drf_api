@@ -4,6 +4,9 @@ from followers.models import Follower
 from beats.models import Beat  # Import the Beat model
 
 class ProfileSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Profile model.
+    """
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     following_id = serializers.SerializerMethodField()
@@ -12,10 +15,16 @@ class ProfileSerializer(serializers.ModelSerializer):
     following_count = serializers.ReadOnlyField()
 
     def get_is_owner(self, obj):
+        """
+        Method to determine if the current user is the owner of the profile.
+        """
         request = self.context['request']
         return request.user == obj.owner
 
     def get_following_id(self, obj):
+        """
+        Method to get the ID of the following relationship between the current user and the profile owner.
+        """
         user = self.context['request'].user
         if user.is_authenticated:
             following = Follower.objects.filter(
@@ -24,7 +33,10 @@ class ProfileSerializer(serializers.ModelSerializer):
             return following.id if following else None
         return None
 
-    def get_beats_count(self, obj):  # Define method to get beats count
+    def get_beats_count(self, obj): 
+        """
+        Method to get the count of beats owned by the user.
+        """
         return Beat.objects.filter(owner=obj.owner).count()
 
     class Meta:

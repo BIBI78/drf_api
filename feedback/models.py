@@ -4,28 +4,38 @@ from beats.models import Beat
 
 
 class FeedbackFire(models.Model):
+    """
+    Model representing feedback indicating a 'fire' reaction to a beat.
+    """
     owner = models.ForeignKey(
         User, 
         on_delete=models.CASCADE,
-        related_name='feedbackfire',
-        null=True,  
-        blank=True,  
+        related_name='feedbackfire', # Related name for accessing feedbackfire from User instances
+        null=True,  # Allows the field to be null in the database
+        blank=True,  # Allows the field to be blank in forms
     )
     beat = models.ForeignKey(
         Beat, 
         on_delete=models.CASCADE,
-        related_name='feedbackfire',
-        null=True,  
-        blank=True,  
+        related_name='feedbackfire', # Related name for accessing feedbackfire from Beat instances
+        null=True,  # Allows the field to be null in the database
+        blank=True,  # Allows the field to be blank in forms
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-created_at']
-        unique_together = ['owner', 'beat']
+        ordering = ['-created_at']   # Order feedback by creation date in descending order
+        unique_together = ['owner', 'beat'] # Ensure each user can provide feedback to a beat only once
+
 
     def __str__(self):
-        return f'{self.owner}{self.beat}'
+        """
+        Returns a string representation of the FeedbackFire object.
+        """
+        return f'{self.owner}{self.beat}' # Concatenate owner and beat for string representation
+
+
+# more or less the same  comments for other feedback models 
 
 class FeedbackCold(models.Model):
     owner = models.ForeignKey(

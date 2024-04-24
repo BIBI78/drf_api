@@ -39,7 +39,6 @@ class ProfileDetail(generics.RetrieveUpdateAPIView):
     """
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Profile.objects.annotate(
-        # problem might be here 
         beats_count=Count('owner__beat', distinct=True),
         followers_count=Count('owner__followed', distinct=True),
         following_count=Count('owner__following', distinct=True)

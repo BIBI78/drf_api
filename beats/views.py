@@ -8,7 +8,7 @@ from feedback.models import FeedbackFire, FeedbackCold, FeedbackHard, FeedbackTr
 
 class BeatList(generics.ListCreateAPIView):
     """
-    List the beats etc etc etc
+    API endpoint for listing and creating beats.
     """
     serializer_class = BeatSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -43,12 +43,15 @@ class BeatList(generics.ListCreateAPIView):
     ]
 
     def perform_create(self, serializer):
+        """
+        Perform creation of a new beat.
+        """
         serializer.save(owner=self.request.user)
 
 
 class BeatDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    Retrieve a BEAT and edit or delete it if you own it.
+    API endpoint for retrieving, updating, and deleting a beat.
     """
     serializer_class = BeatSerializer
     permission_classes = [IsOwnerOrReadOnly]
@@ -61,6 +64,3 @@ class BeatDetail(generics.RetrieveUpdateDestroyAPIView):
         trash_count=Count('feedbacktrash', distinct=True),
         loop_count=Count('feedbackloop', distinct=True),
     ).order_by('-created_at')
-
-
- 

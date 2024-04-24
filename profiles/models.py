@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
+    """
+    Model for user profiles.
+    """
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -11,7 +14,7 @@ class Profile(models.Model):
     content = models.TextField(blank=True)
     image = models.ImageField(
         upload_to='images/', default='default_profile_qdjgyp_m1qwo0'
-    )
+    ) # Image field for profile picture, with default image if not provided
 
     class Meta:
         ordering = ['-created_at']
@@ -21,6 +24,10 @@ class Profile(models.Model):
 
 
 def create_profile(sender, instance, created, **kwargs):
+    """
+    Signal handler function to create a profile when a new user is created.
+    """
+
     if created:
         Profile.objects.create(owner=instance)
 

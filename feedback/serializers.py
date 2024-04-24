@@ -3,18 +3,26 @@ from django.db import IntegrityError
 from .models import FeedbackFire, FeedbackCold, FeedbackHard, FeedbackTrash, FeedbackLoop
 
 class FeedbackFireSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
+    """
+    Serializer for FeedbackFire model.
+    """
+    owner = serializers.ReadOnlyField(source='owner.username') # Read-only field for owner's username
     class Meta:
         model = FeedbackFire
-        fields = '__all__'
+        fields = '__all__' # Include all fields
 
     def create(self, validated_data):
+        """
+        Custom create method to handle possible IntegrityError (possible duplicate).
+        """
         try:
             return super().create(validated_data)
         except IntegrityError:
             raise serializers.ValidationError({
                 'detail': 'possible duplicate'
             })
+
+# Pretty much the same comments for other serializers 
 
 class FeedbackColdSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
