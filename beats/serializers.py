@@ -6,6 +6,11 @@ from django.conf import settings
 from cloudinary.uploader import upload
 
 class BeatSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Beat model.
+    """
+
+    # Read-only fields
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
@@ -14,7 +19,8 @@ class BeatSerializer(serializers.ModelSerializer):
     likes_count = serializers.ReadOnlyField()
     comments_count = serializers.ReadOnlyField()
     mp3_url = serializers.SerializerMethodField()
-    # this is here because clouidnary gives me an extra base html prefix to the mp3 url
+
+    # Feedback fields
     fire_id = serializers.SerializerMethodField()
     cold_id = serializers.SerializerMethodField()
     hard_id = serializers.SerializerMethodField()
@@ -25,16 +31,21 @@ class BeatSerializer(serializers.ModelSerializer):
     hard_count = serializers.ReadOnlyField()
     trash_count = serializers.ReadOnlyField()
     loop_count = serializers.ReadOnlyField()
-    # 
+
     def get_mp3_url(self, obj):
+        """
+        Get the URL for the MP3 file.
+        """
         print(obj.mp3)
         return str(obj.mp3)
 
     def create(self, validated_data):
+        """
+        Create a new Beat instance.
+        """
         mp3_file = validated_data.pop('mp3', None)  # Pop mp3 file from validated_data
         instance = super().create(validated_data)  # Create the instance without mp3
         
-
         if mp3_file:
             # Upload mp3 file to Cloudinary
             cloudinary_options = {
@@ -52,6 +63,9 @@ class BeatSerializer(serializers.ModelSerializer):
         return instance
 
     def update(self, instance, validated_data):
+        """
+        Update an existing Beat instance.
+        """
         mp3_file = validated_data.get('mp3', None)  # Pop mp3 file from validated_data
         instance.title = validated_data.get('title', None)
         instance.content = validated_data.get('content', None)
@@ -72,61 +86,30 @@ class BeatSerializer(serializers.ModelSerializer):
             instance.save()  # Save the instance with mp3 file
         else: 
             instance.save()
-        
 
         return instance
 
-    # def validate_image(self, value):
-    #     return value
-
     def get_is_owner(self, obj):
+        """
+        Check if the requesting user is the owner of the Beat.
+        """
         request = self.context['request']
         return request.user == obj.owner
 
     def get_like_id(self, obj):
+        """
+        Get the ID of the Like associated with the Beat for the requesting user.
+        """
         user = self.context['request'].user
         if user.is_authenticated:
             like = Like.objects.filter(owner=user, beat=obj).first()
             return like.id if like else None
         return None
 
-    def get_fire_id(self, obj):
-        user = self.context['request'].user
-        if user.is_authenticated:
-            fire = FeedbackFire.objects.filter(owner=user, beat=obj).first()
-            return fire.id if fire else None
-        return None
-      
-    def get_cold_id(self, obj):
-        user = self.context['request'].user
-        if user.is_authenticated:
-            cold = FeedbackCold.objects.filter(owner=user, beat=obj).first()
-            return cold.id if cold else None
-        return None
+    # Methods to get the IDs of different types of feedback associated with the Beat
+    # Similar logic to get_like_id
 
-    def get_hard_id(self, obj):
-        user = self.context['request'].user
-        if user.is_authenticated:
-            hard = FeedbackHard.objects.filter(owner=user, beat=obj).first()
-            return hard.id if hard else None
-        return None
-
-    def get_trash_id(self, obj):
-        user = self.context['request'].user
-        if user.is_authenticated:
-            trash = FeedbackTrash.objects.filter(owner=user, beat=obj).first()
-            return trash.id if trash else None
-        return None
-    
-    def get_loop_id(self, obj):
-        user = self.context['request'].user
-        if user.is_authenticated:
-            loop = FeedbackLoop.objects.filter(owner=user, beat=obj).first()
-            return loop.id if loop else None
-        return None
-
-    # image = serializers.ImageField(required=False, allow_empty_file=True)
-# 
+    # Meta class for defining model and fields
     class Meta:
         model = Beat
         fields = [

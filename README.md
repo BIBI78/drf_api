@@ -334,9 +334,9 @@ pip3 freeze --local > requirements.txt
 25. Navigated back to heroku, and under the ‘Deploy’ tab, connect the GitHub repository.
 26. Deployed the branch.
 
-### Deploy to Render & ElephantSQL:
+### Deploy to  ElephantSQL:
 
-- Due to Heroku revoking their frie tier access, the project has been redeployed using (Render)[https://render.com/] & (ElephantSQL)[https://www.elephantsql.com/] using the following [instructions](https://code-institute-students.github.io/deployment-docs/41-pp5-adv-fe/pp5-adv-fe-drf-01-create-a-database)
+- 
 
 ## CREDITS:
 
