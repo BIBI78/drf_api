@@ -23,9 +23,10 @@
 
 ## User Stories:
 
-All User Stories have been documented in their own file, the link for which can be found [HERE](static/userstories.md).
+All user stories can be found [HERE](static/userstories.md).
 
-I have included links to the [GitHub Issues](https://github.com/BIBI78/opium/issues) for this project, as well as the [KANBAN board]().
+Links to the [GitHub Issues](https://github.com/BIBI78/opium/issues) f
+[KANBAN board]().
 
 ## Database:
 
@@ -35,7 +36,7 @@ I have included links to the [GitHub Issues](https://github.com/BIBI78/opium/iss
 
 ### Validator Testing:
 
-All files passed through [PEP8](http://pep8online.com/) without error.
+All files passed through [PEP8](http://pep8online.com/) without error.( Except for 1 file mentioned in the unfoxed bugs section)
 
 ![PEP8](/static/images/pep8.png)
 
@@ -43,18 +44,17 @@ All files passed through [PEP8](http://pep8online.com/) without error.
 
 1. Manually verified each url path created works & opens without error.
 
-2. Verified that the CRUD functionality is available in each app via the development version: Comments, Followers, Likes, Beats, Profiles
+2. Verified that the CRUD functionality for each app : Comments, Followers, Likes, Beats, Profiles, Feedback
 
 - Checked by visiting each link.
-- Creating new item whatever it was.
-- Checking new item URL path.(_very important for mp3_)
-- Editing the item (not available for Likes, Followers or Users)
+- Creating new item  for whatver app.
+- Checking URL paths.(_very important for mp3_)
+- Editing the item (not available for Likes, Followers or Rating)
 
-3. Ensured search feature for Beats, apps returns results. Results not filtered for events:
+3. Ensured search feature for Beats
 
-- Checked the views file for Beats. Filter & search field functions were not indented correctly. Once amended, the search bar produced the desired results.
 
-4. Repeated the steps for the deployed API, and all pages.
+4. Repeated these steps for the deployed API, and all pages.
 
 - Needed to reset database everytime I edit my models, first I delete the **pycache** file in the migration folder of each app. Then clear my database on Elephant SQL then I run this command in the terminal:
 
@@ -321,8 +321,8 @@ web: gunicorn project_name.wsgi
 22. Migrated the database:
 
 ```
-python3 manage.py makemigrations
-python3 manage.py migrate
+python manage.py makemigrations
+python manage.py migrate
 ```
 
 23. Froze requirements:
@@ -332,7 +332,7 @@ pip3 freeze --local > requirements.txt
 ```
 
 24. Added, committed & pushed the changes to GitHub
-25. Navigated back to heroku, and under the ‘Deploy’ tab, connect the GitHub repository.
+25. Navigate back to heroku, and under the ‘Deploy’ tab, connect the GitHub repository.
 26. Deployed the branch.
 
 ### Deploy to ElephantSQL:
