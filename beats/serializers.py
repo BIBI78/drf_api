@@ -1,9 +1,16 @@
 from rest_framework import serializers
 from beats.models import Beat
 from likes.models import Like
-from feedback.models import FeedbackFire, FeedbackCold, FeedbackHard, FeedbackTrash, FeedbackLoop
+from feedback.models import (
+    FeedbackFire,
+    FeedbackCold,
+    FeedbackHard,
+    FeedbackTrash,
+    FeedbackLoop,
+)
 from django.conf import settings
 from cloudinary.uploader import upload
+
 
 class BeatSerializer(serializers.ModelSerializer):
     """
@@ -43,9 +50,11 @@ class BeatSerializer(serializers.ModelSerializer):
         """
         Create a new Beat instance.
         """
-        mp3_file = validated_data.pop('mp3', None)  # Pop mp3 file from validated_data
-        instance = super().create(validated_data)  # Create the instance without mp3
-        
+        mp3_file = validated_data.pop('mp3', None)
+        # Pop mp3 file from validated_data
+        instance = super().create(validated_data)
+        # Create the instance without mp3
+
         if mp3_file:
             # Upload mp3 file to Cloudinary
             cloudinary_options = {
@@ -54,9 +63,12 @@ class BeatSerializer(serializers.ModelSerializer):
             }
             try:
                 result = upload(mp3_file, **cloudinary_options)
-                instance.mp3 = result.get('secure_url')  # Use 'secure_url' from the Cloudinary result
+                instance.mp3 = result.get('secure_url')
+                # Use 'secure_url' from the Cloudinary result
             except Exception as e:
-                raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
+                raise serializers.ValidationError(
+                    f"Error uploading mp3 file: {e}"
+                )
 
             instance.save()  # Save the instance with mp3 file
 
@@ -66,7 +78,8 @@ class BeatSerializer(serializers.ModelSerializer):
         """
         Update an existing Beat instance.
         """
-        mp3_file = validated_data.get('mp3', None)  # Pop mp3 file from validated_data
+        mp3_file = validated_data.get('mp3', None)
+        # Pop mp3 file from validated_data
         instance.title = validated_data.get('title', None)
         instance.content = validated_data.get('content', None)
 
@@ -78,13 +91,16 @@ class BeatSerializer(serializers.ModelSerializer):
             }
             try:
                 result = upload(mp3_file, **cloudinary_options)
-                instance.mp3 = result.get('secure_url')  # Use 'secure_url' from the Cloudinary result
+                instance.mp3 = result.get('secure_url')
+                # Use 'secure_url' from the Cloudinary result
                 print(f'secure_url: {instance.mp3}')
             except Exception as e:
-                raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
+                raise serializers.ValidationError(
+                    f"Error uploading mp3 file: {e}"
+                )
 
             instance.save()  # Save the instance with mp3 file
-        else: 
+        else:
             instance.save()
 
         return instance
@@ -98,7 +114,7 @@ class BeatSerializer(serializers.ModelSerializer):
 
     def get_like_id(self, obj):
         """
-        Get the ID of the Like associated with the Beat for the requesting user.
+        Get the ID of the Like associated with the Beat for the requesting user
         """
         user = self.context['request'].user
         if user.is_authenticated:
@@ -106,7 +122,7 @@ class BeatSerializer(serializers.ModelSerializer):
             return like.id if like else None
         return None
 
-    # Methods to get the IDs of different types of feedback associated with the Beat
+    # Methods to get the IDs of different types of feedback associated w/ Beat
     # Similar logic to get_like_id
 
     # Meta class for defining model and fields
@@ -115,8 +131,8 @@ class BeatSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
-            'title', 'content', 'mp3', 
-            'like_id', 'likes_count', 'comments_count', 'mp3_url','cold_count',
-            'hard_count', 'trash_count', 'loop_count','fire_count', 
-            'fire_id','cold_id','hard_id','trash_id','loop_id',
+            'title', 'content', 'mp3', 'like_id', 'likes_count',
+            'comments_count', 'mp3_url', 'cold_count',
+            'hard_count', 'trash_count', 'loop_count', 'fire_count',
+            'fire_id', 'cold_id', 'hard_id', 'trash_id', 'loop_id',
         ]

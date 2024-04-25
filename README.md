@@ -37,7 +37,7 @@ I have included links to the [GitHub Issues](https://github.com/BIBI78/opium/iss
 
 All files passed through [PEP8](http://pep8online.com/) without error.
 
-![PEP8](/static/images/ep8.png)
+![PEP8](/static/images/pep8.png)
 
 ### Manual Testing:
 

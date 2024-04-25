@@ -4,7 +4,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_api.permissions import IsOwnerOrReadOnly
 from .models import Beat
 from .serializers import BeatSerializer
-from feedback.models import FeedbackFire, FeedbackCold, FeedbackHard, FeedbackTrash, FeedbackLoop
+from feedback.models import (
+    FeedbackFire,
+    FeedbackCold,
+    FeedbackHard,
+    FeedbackTrash,
+    FeedbackLoop,
+)
+
 
 class BeatList(generics.ListCreateAPIView):
     """
@@ -21,14 +28,13 @@ class BeatList(generics.ListCreateAPIView):
         trash_count=Count('feedbacktrash', distinct=True),
         loop_count=Count('feedbackloop', distinct=True),
     )
-    
     filter_backends = [
         filters.OrderingFilter,
         filters.SearchFilter,
         DjangoFilterBackend,
     ]
     filterset_fields = [
-        'owner__followed__owner__profile',  
+        'owner__followed__owner__profile',
         'likes__owner__profile',
         'owner__profile',
     ]
