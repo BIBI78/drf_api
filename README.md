@@ -47,12 +47,11 @@ All files passed through [PEP8](http://pep8online.com/) without error.( Except f
 2. Verified that the CRUD functionality for each app : Comments, Followers, Likes, Beats, Profiles, Feedback
 
 - Checked by visiting each link.
-- Creating new item  for whatver app.
+- Creating new item for whatver app.
 - Checking URL paths.(_very important for mp3_)
 - Editing the item (not available for Likes, Followers or Rating)
 
 3. Ensured search feature for Beats
-
 
 4. Repeated these steps for the deployed API, and all pages.
 
@@ -121,27 +120,28 @@ gunicorn
 django-cors-headers
 ```
 
-5. Created the Django project with the following command:
+5. Create the Django project with the following command:
 
 ```
 django-admin startproject project_name .
 ```
 
-6. Navigated back to [Heroku](heroku.com), and under the Settings tab, added the following configvars:
+6. Navigate back to [Heroku](heroku.com), and under the Settings tab, add the configvars:
 
 - Key: SECRET_KEY | Value: hidden
 - Key: CLOUDINARY_URL | Value: cloudinary://hidden
 - Key: DISABLE_COLLECTSTATIC | Value: 1
 - Key: ALLOWED_HOST | Value: api-app-name.herokuapp.com
 
-7. Add two additional configvars once the ReactApp has been created:
+7. Add two additional configvars after the ReactApp has been created:
 
 - Key: CLIENT_ORIGIN | Value: https://react-app-name.herokuapp.com
 - Key: CLIENT_ORIGIN_DEV | Value: https://gitpod-browser-link.ws-eu54.gitpod.io
-- Check that the trailing slash `\` at the end of both links has been removed.
-- Gitpod occasionally updates the browser preview link. Should this occur, the CLIENT_ORIGIN_DEV value shall need to be updated.
+- Make sure that the trailing slash `\` at the end of both links has been removed.
 
-8. Created the env.py file, and added the following variables. The value for DATABASE_URL was obtained from the Heroku configvars in the previous step:
+- (_IMPORTANT_) Gitpod updates the browser preview link every now and then. If this happpens the CLIENT_ORIGIN_DEV value needs to be updated.
+
+8. Creat the env.py file, and add the following variables. (_The value for DATABASE_URL comes from the Heroku configvars in the previous step_):
 
 ```
 import os
@@ -156,7 +156,7 @@ os.environ['DATABASE_URL'] = 'postgres://hidden'
 
 <!-- For reference, refer to: [DRF-API walkthrough settings.py](https://github.com/Code-Institute-Solutions/drf-api/blob/2c0931a2b569704f96c646555b0bee2a4d883f01/drf_api/settings.py) -->
 
-9. Add the following to INSTALLED_APPS to support the newly installed packages:
+9. Add the following to INSTALLED_APPS:
 
 ```
 'cloudinary_storage',
@@ -236,7 +236,7 @@ JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 ```
 
-15. Then added:
+15. Then add:
 
 ```
 REST_AUTH_SERIALIZERS = {
