@@ -25,8 +25,8 @@
 
 All user stories can be found [HERE](static/userstories.md).
 
-Links to the [GitHub Issues](https://github.com/BIBI78/opium/issues) f
-[KANBAN board]().
+Links to the [GitHub Issues](https://github.com/BIBI78/opium/issues)
+[KANBAN board](https://github.com/users/BIBI78/projects/10/views/1).
 
 ## Database:
 
@@ -347,4 +347,3 @@ pip3 freeze --local > requirements.txt
 - The ratings app outline comes from this project [HERE](https://github.com/andreas-ka/explore-sthlm-api), but I had to edit and downgrade the package to be able to deploy it in the frontend.
 - All my thanks to my mentor [Lauren](https://github.com/CluelessBiker)
 - I used [ChatGPT](https://chat.openai.com/) To spell check and correct grammer throughout this project and to help add notes to the code.
-
