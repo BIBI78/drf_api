@@ -346,8 +346,5 @@ pip3 freeze --local > requirements.txt
 - I followed the exact steps described in the CI walkrough project.
 - The ratings app outline comes from this project [HERE](https://github.com/andreas-ka/explore-sthlm-api), but I had to edit and downgrade the package to be able to deploy it in the frontend.
 - All my thanks to my mentor [Lauren](https://github.com/CluelessBiker)
-- - I used [ChatGPT](https://chat.openai.com/) To spell check and correct grammer throughout this project and to help add notes to the code.
+- I used [ChatGPT](https://chat.openai.com/) To spell check and correct grammer throughout this project and to help add notes to the code.
 
-### Media:
-
-- All images came from [Google images](https://www.google.com/)
