@@ -45,7 +45,9 @@ class BeatSerializer(serializers.ModelSerializer):
                 result = upload(mp3_file, **cloudinary_options)
                 instance.mp3 = result.get('secure_url')
             except Exception as e:
-                raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
+                raise serializers.ValidationError(
+                         f"Error uploading mp3 file: {e}"
+                 )
             instance.save()
 
         return instance
@@ -65,7 +67,9 @@ class BeatSerializer(serializers.ModelSerializer):
                 instance.mp3 = result.get('secure_url')
                 print(f'secure_url: {instance.mp3}')
             except Exception as e:
-                raise serializers.ValidationError(f"Error uploading mp3 file: {e}")
+                raise serializers.ValidationError(
+                    f"Error uploading mp3 file: {e}"
+                )
 
             instance.save()
         else:
@@ -125,7 +129,8 @@ class BeatSerializer(serializers.ModelSerializer):
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
             'title', 'content', 'mp3',
-            'like_id', 'likes_count', 'comments_count', 'mp3_url', 'cold_count',
-            'hard_count', 'trash_count', 'loop_count', 'fire_count',
-            'fire_id', 'cold_id', 'hard_id', 'trash_id', 'loop_id',
+            'like_id', 'likes_count', 'comments_count', 'mp3_url',
+            'cold_count', 'hard_count', 'trash_count', 'loop_count',
+            'fire_count', 'fire_id', 'cold_id', 'hard_id', 'trash_id',
+            'loop_id',
         ]
